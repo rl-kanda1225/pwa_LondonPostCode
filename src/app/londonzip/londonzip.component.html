@@ -1,0 +1,111 @@
+<mat-toolbar>Search London PostCode</mat-toolbar>
+   <mat-radio-group [(ngModel)]="radSearchMode">
+    <mat-radio-button value="1">By Postcode</mat-radio-button>
+    <mat-radio-button value="2">By London Zone</mat-radio-button>
+  </mat-radio-group>
+  <div *ngIf="radSearchMode=='1'">
+    <mat-form-field>
+      <input matInput [(ngModel)]="ngLocSearch.Postcode" placeholder="Search by Postcode" (ngModelChange)="filterChangedDataTable(ngLocSearch.Postcode)" required>
+    </mat-form-field>
+  </div>
+  <div *ngIf="radSearchMode=='2'">
+    <mat-form-field>
+      <input matInput [(ngModel)]="ngLocSearch.LondonZone" placeholder="Search by London Zone" (ngModelChange)="filterChangedDataTable(ngLocSearch.LondonZone)" required>
+    </mat-form-field>
+  </div>
+
+ 
+<div>
+  <div class="create-button-part">
+    <details>
+      <summary>
+        <div>
+          <button mat-fab color="warn">
+            <span matTooltip="Menu">
+              <mat-icon>menu</mat-icon>
+            </span>
+          </button>
+        </div>
+      </summary>
+      <div>
+            <button mat-fab style="background: rgb(0, 208, 101)" (click)="save2Excel(excelexport)">
+        <span matTooltip="Export Excel">
+          <mat-icon>explicit</mat-icon>
+        </span>
+      </button>
+      <kendo-excelexport [data]="sortlondonzips.data" fileName="LondonCode.xlsx" [filterable]="true" #excelexport>
+        <kendo-excelexport-column field="Postcode" title="Postcode" [width]="100"></kendo-excelexport-column>
+        <kendo-excelexport-column field="County" title="County" [width]="200"></kendo-excelexport-column>
+        <kendo-excelexport-column field="District" title="District" [width]="100"></kendo-excelexport-column>
+        <kendo-excelexport-column field="LondonZone" title="LondonZone" [width]="100"></kendo-excelexport-column>
+        <kendo-excelexport-column field="PostcodeArea" title="PostcodeArea" [width]="200"></kendo-excelexport-column>
+        <kendo-excelexport-column field="PostcodeDistrict" title="PostcodeDistrict" [width]="100"></kendo-excelexport-column>
+        <kendo-excelexport-column field="Remark" title="Remark" [width]="100"></kendo-excelexport-column>
+      </kendo-excelexport>
+      </div>
+    </details>
+  </div>
+
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+  </mat-paginator>
+  <div class="example-container">
+    <table mat-table [dataSource]="sortlondonzips" matSort #sortTableUser="matSort">        
+      <ng-container matColumnDef="EDIT_BUTTON">
+        <th mat-header-cell *matHeaderCellDef>Edit</th>
+        <td mat-cell *matCellDef="let row">
+          <button *ngIf=!row.isDisabled mat-mini-fab color="primary" (click)="row.isDisabled=true">
+            <span matTooltip="Edit">
+              <mat-icon>edit</mat-icon>
+            </span>
+          </button>
+          <button *ngIf=row.isDisabled mat-mini-fab color="primary" (click)="row.isDisabled=false">
+            <span matTooltip="Cancel">
+              <mat-icon>clear</mat-icon>
+            </span>
+          </button>
+          <button *ngIf=row.isDisabled mat-mini-fab color="accent" (click)="btnUpdate(row);row.isDisabled=false">
+
+            <span matTooltip="Confirm">
+              <mat-icon>send</mat-icon>
+            </span>
+          </button>
+        </td>
+      </ng-container>      
+      <ng-container matColumnDef="Postcode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Postcode</th>
+        <td mat-cell *matCellDef="let row">{{ row.Postcode }}</td>
+      </ng-container>
+      <ng-container matColumnDef="County">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>County</th>
+        <td mat-cell *matCellDef="let row">{{ row.County }}</td>
+      </ng-container>
+      <ng-container matColumnDef="District">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+        <td mat-cell *matCellDef="let row">{{ row.District }}</td>
+      </ng-container>
+      <ng-container matColumnDef="LondonZone">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>LondonZone</th>
+        <td mat-cell *matCellDef="let row">{{ row.LondonZone }}</td>
+      </ng-container>
+      <ng-container matColumnDef="PostcodeArea">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>PostcodeArea</th>
+        <td mat-cell *matCellDef="let row">{{ row.PostcodeArea }}</td>
+      </ng-container>
+      <ng-container matColumnDef="PostcodeDistrict">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>PostcodeDistrict</th>
+        <td mat-cell *matCellDef="let row">{{ row.PostcodeDistrict }}</td>
+      </ng-container>
+      <ng-container matColumnDef="Remark">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-form-field>
+            <input matInput [(ngModel)]="row.Remark" [disabled]="!row.isDisabled" (keypress)="notSpace($event)">
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['EDIT_BUTTON','Postcode','County','District','LondonZone','PostcodeArea','PostcodeDistrict','Remark']"></tr>
+      <tr mat-row *matRowDef="let Row; columns: ['EDIT_BUTTON','Postcode','County','District','LondonZone','PostcodeArea','PostcodeDistrict','Remark']"
+        (click)="selectedRow=Row" [class.active]="Row == selectedRow">
+      </tr>
+    </table>
+  </div>

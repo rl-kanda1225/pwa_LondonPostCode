@@ -1,0 +1,16 @@
+{
+  "name": "pwa_LondonPostCode",
+  "short_name": "PostCode",
+  "theme_color": "#1976d2",
+  "background_color": "#fafafa",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/londonpostcode",
+  "icons": [
+    {
+      "src": "assets/icons/icon-uk-160x160.jpg",
+      "sizes": "160x160",
+      "type": "image/jpg"
+    }
+  ]
+}

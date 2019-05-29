@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+  .mat-header-cell {
+    top: 0;
+    position: sticky;
+    z-index: 1;
+    background-color: white;
+  }
+  .create-button-part {
+    padding-right: 20px;
+    padding-bottom: 20px;
+    float: right;
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    z-index: 10;
+  }
+
+  .standard-width {
+    margin: 8px;
+  }
+
+  .standard-closed {
+    text-align: right; 
+  }
+
+  tr:hover {
+    background-color: rgba(255, 0, 0, 0.1); 
+  }
+
+  tr.active {
+    background-color: rgba(255, 0, 0, 0.2);
+  } 
+  .example-container {
+    height: 400px; 
+    width: 1380px;
+    overflow: auto;
+  }
+
+  table {
+    width: 100%;
+  }
